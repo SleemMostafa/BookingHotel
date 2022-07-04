@@ -10,8 +10,10 @@
   <li>Microsoft.EntityFrameworkCore.Tools<li/>
   <li>AutoMapper<li/>
 <ul/>
-make a 3-Tier Booking System for a Hotel that has several branches. 
-The application should be composed of the following components.
+
+
+## make a 3-Tier Booking System for a Hotel that has several branches.
+
 1. Booking Database (SQL Server)
 2. Web service (API) to have all the logic of the system, e.g. find availability for the selected 
 time, book, cancel, update the DB with the booked or cancelled room(s). (.Net/ C#)
