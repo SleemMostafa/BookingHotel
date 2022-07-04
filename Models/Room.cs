@@ -22,7 +22,7 @@ namespace BookingHotel.Models
         public virtual Branch  Branch { get; set; }
         [ForeignKey("Room_Type")]
         [Required]
-        public int RoomTypeId { get; set; }
+        public int RoomType_Id { get; set; }
         public virtual RoomType Room_Type { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
     }

@@ -7,5 +7,6 @@ namespace BookingHotel.Models
     {
         [Required]
         public string Address { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

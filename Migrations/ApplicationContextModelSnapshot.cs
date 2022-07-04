@@ -133,10 +133,16 @@ namespace BookingHotel.Migrations
                     b.Property<DateTime>("DateOut")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Guest_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Guest_Id");
 
                     b.ToTable("Reservations");
                 });
@@ -155,7 +161,7 @@ namespace BookingHotel.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("RoomTypeId")
+                    b.Property<int>("RoomType_Id")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -165,7 +171,7 @@ namespace BookingHotel.Migrations
 
                     b.HasIndex("Branch_Id");
 
-                    b.HasIndex("RoomTypeId");
+                    b.HasIndex("RoomType_Id");
 
                     b.ToTable("Rooms");
                 });
@@ -337,6 +343,17 @@ namespace BookingHotel.Migrations
                     b.ToTable("ReservationRoom");
                 });
 
+            modelBuilder.Entity("BookingHotel.Models.Reservation", b =>
+                {
+                    b.HasOne("BookingHotel.Models.Guest", "Guest")
+                        .WithMany("Reservations")
+                        .HasForeignKey("Guest_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Guest");
+                });
+
             modelBuilder.Entity("BookingHotel.Models.Room", b =>
                 {
                     b.HasOne("BookingHotel.Models.Branch", "Branch")
@@ -347,7 +364,7 @@ namespace BookingHotel.Migrations
 
                     b.HasOne("BookingHotel.Models.RoomType", "Room_Type")
                         .WithMany("Rooms")
-                        .HasForeignKey("RoomTypeId")
+                        .HasForeignKey("RoomType_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -425,6 +442,11 @@ namespace BookingHotel.Migrations
             modelBuilder.Entity("BookingHotel.Models.Branch", b =>
                 {
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("BookingHotel.Models.Guest", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("BookingHotel.Models.RoomType", b =>

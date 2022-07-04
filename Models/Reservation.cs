@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingHotel.Models
 {
@@ -6,12 +7,16 @@ namespace BookingHotel.Models
     {
         [Key]
         public int Id { get; set; }
-        [DataType("Date")]
+        [DataType("Date"),Required]
         public DateTime DateIn { get; set; }
-        [DataType("Date")]
+        [DataType("Date"),Required]
         public DateTime DateOut { get; set; }
+        [Required]
         public bool Status { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
+        [ForeignKey("Guest"),Required]
+        public string Guest_Id { get; set; }
+        public virtual Guest Guest { get; set; }
 
     }
 }
