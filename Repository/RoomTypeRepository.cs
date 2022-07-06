@@ -1,4 +1,5 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
 
 namespace BookingHotel.Repository
 {
@@ -10,12 +11,18 @@ namespace BookingHotel.Repository
         {
             this.db = db;
         }
+
         public RoomType Add(RoomType entity)
         {
             throw new NotImplementedException();
         }
 
         public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Edit(int id, RoomType entity)
         {
             throw new NotImplementedException();
         }

@@ -1,8 +1,11 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
 
 namespace BookingHotel.Repository
 {
-    interface IRepositoryReservation:IRepository<Reservation,int>
+    public interface IRepositoryReservation:IRepository<Reservation,int>
     {
+        StatusResponse ConfirmReservation(int reservationId);
+        bool CancleReservation(int reservationId, int roomId);
     }
 }

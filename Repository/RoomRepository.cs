@@ -1,4 +1,6 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingHotel.Repository
 {
@@ -10,24 +12,51 @@ namespace BookingHotel.Repository
         {
             this.db = db;
         }
+
         public Room Add(Room entity)
         {
-            throw new NotImplementedException();
+            if (entity != null)
+            {
+                db.Rooms.Add(entity);
+                db.SaveChanges();
+                return entity;
+            }
+            throw new Exception("Insert faild");
         }
-
         public int Delete(int id)
         {
-            throw new NotImplementedException();
+            Room room = db.Rooms.Find(id);
+            if (room != null)
+            {
+                db.Rooms.Remove(room);
+                return (db.SaveChanges());
+            }
+            return 0;
+        }
+
+        public int Edit(int id, Room newRoom)
+        {
+            Room oldRoom = db.Rooms.FirstOrDefault(r => r.Id == id);
+            if (oldRoom != null)
+            {
+                oldRoom.Price = newRoom.Price;
+                oldRoom.Status = newRoom.Status;
+                oldRoom.Branch_Id = newRoom.Branch_Id;
+                oldRoom.RoomType_Id = newRoom.RoomType_Id;
+                return (db.SaveChanges());
+            }
+            return 0;
         }
 
         public ICollection<Room> GetAll()
         {
-            throw new NotImplementedException();
+            List<Room> rooms = db.Rooms.ToList();
+            return (rooms);
         }
-
         public Room GetOne(int id)
         {
-            throw new NotImplementedException();
+            Room room = db.Rooms.Include(r=>r.Room_Type).FirstOrDefault(b => b.Id == id);
+            return room;
         }
     }
 }

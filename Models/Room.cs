@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingHotel.Models
 {
+    [Flags]
     public enum StatusRoom
     {
         Available,
@@ -15,7 +16,7 @@ namespace BookingHotel.Models
         [Required]
         public double Price { get; set; }
         [Required]
-        public StatusRoom Status{ get; set; }
+        public StatusRoom Status { get; set; }
         [ForeignKey("Branch")]
         [Required]
         public int Branch_Id{ get; set; }
@@ -24,6 +25,7 @@ namespace BookingHotel.Models
         [Required]
         public int RoomType_Id { get; set; }
         public virtual RoomType Room_Type { get; set; }
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<ReservationRoom> reservationRooms { get; set; }
+         
     }
 }

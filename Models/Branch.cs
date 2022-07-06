@@ -12,6 +12,6 @@ namespace BookingHotel.Models
         public string Location { get; set; }
         [MaxLength(50),Required]
         public string City { get; set; }
-        public virtual ICollection<Room> Rooms { get; set; } 
+        public virtual ICollection<Room>? Rooms { get; set; } 
     }
 }

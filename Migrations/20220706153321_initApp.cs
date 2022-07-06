@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingHotel.Migrations
 {
     /// <inheritdoc />
-    public partial class InitApp : Migration
+    public partial class initApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -193,9 +193,9 @@ namespace BookingHotel.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateIn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    Guest_Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Guest_Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,21 +240,27 @@ namespace BookingHotel.Migrations
                 name: "ReservationRoom",
                 columns: table => new
                 {
-                    ReservationsId = table.Column<int>(type: "int", nullable: false),
-                    RoomsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumberOfDays = table.Column<int>(type: "int", nullable: false),
+                    DateIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Reservation_Id = table.Column<int>(type: "int", nullable: false),
+                    Room_Id = table.Column<int>(type: "int", nullable: false),
+                    TotalPriceForOneRoom = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationRoom", x => new { x.ReservationsId, x.RoomsId });
+                    table.PrimaryKey("PK_ReservationRoom", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReservationRoom_Reservations_ReservationsId",
-                        column: x => x.ReservationsId,
+                        name: "FK_ReservationRoom_Reservations_Reservation_Id",
+                        column: x => x.Reservation_Id,
                         principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReservationRoom_Rooms_RoomsId",
-                        column: x => x.RoomsId,
+                        name: "FK_ReservationRoom_Rooms_Room_Id",
+                        column: x => x.Room_Id,
                         principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -300,9 +306,14 @@ namespace BookingHotel.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationRoom_RoomsId",
+                name: "IX_ReservationRoom_Reservation_Id",
                 table: "ReservationRoom",
-                column: "RoomsId");
+                column: "Reservation_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservationRoom_Room_Id",
+                table: "ReservationRoom",
+                column: "Room_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_Guest_Id",

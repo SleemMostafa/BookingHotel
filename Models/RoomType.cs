@@ -2,11 +2,12 @@
 
 namespace BookingHotel.Models
 {
+    [Flags]
     public enum TypeOfRoom
     {
         Single,
         Double,
-        Suite
+        Suite 
     }
     public class RoomType
     {

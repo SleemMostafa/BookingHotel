@@ -2,7 +2,7 @@
 
 namespace BookingHotel.Repository
 {
-    interface IRepositoryRoom:IRepository<Room,int>
+    public interface IRepositoryRoom:IRepository<Room,int>
     {
     }
 }

@@ -1,4 +1,6 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingHotel.Repository
 {
@@ -12,22 +14,47 @@ namespace BookingHotel.Repository
         }
         public Branch Add(Branch entity)
         {
-            throw new NotImplementedException();
+            if(entity != null)
+            {
+                db.Branches.Add(entity);
+                db.SaveChanges();
+                return entity;
+            }
+            throw new Exception ("Insert faild");
         }
-
         public int Delete(int id)
         {
-            throw new NotImplementedException();
+            Branch branch = db.Branches.Find(id);
+            if (branch != null)
+            {
+                db.Branches.Remove(branch);
+                return (db.SaveChanges());
+            }
+            return 0;
+        }
+
+        public int Edit(int id, Branch newBranch)
+        {
+            Branch oldBranch = db.Branches.FirstOrDefault(b => b.Id == id);
+            if (oldBranch != null)
+            {
+                oldBranch.Name = newBranch.Name;
+                oldBranch.Location = newBranch.Location;
+                oldBranch.City = newBranch.City;
+                return (db.SaveChanges());
+            }
+            return 0;
         }
 
         public ICollection<Branch> GetAll()
         {
-            return (db.Branches.ToList());
+            List<Branch> branches = db.Branches.ToList();
+            return (branches);  
         }
-
         public Branch GetOne(int id)
         {
-            throw new NotImplementedException();
+            Branch branch =  db.Branches.Include(b => b.Rooms).AsSplitQuery().FirstOrDefault(b => b.Id == id);
+            return branch;
         }
     }
 }
