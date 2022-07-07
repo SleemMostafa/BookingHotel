@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingHotel.Migrations
 {
     /// <inheritdoc />
-    public partial class initApp : Migration
+    public partial class InitApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -237,7 +237,7 @@ namespace BookingHotel.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservationRoom",
+                name: "ReservationRooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -251,15 +251,15 @@ namespace BookingHotel.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationRoom", x => x.Id);
+                    table.PrimaryKey("PK_ReservationRooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReservationRoom_Reservations_Reservation_Id",
+                        name: "FK_ReservationRooms_Reservations_Reservation_Id",
                         column: x => x.Reservation_Id,
                         principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReservationRoom_Rooms_Room_Id",
+                        name: "FK_ReservationRooms_Rooms_Room_Id",
                         column: x => x.Room_Id,
                         principalTable: "Rooms",
                         principalColumn: "Id",
@@ -306,13 +306,13 @@ namespace BookingHotel.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationRoom_Reservation_Id",
-                table: "ReservationRoom",
+                name: "IX_ReservationRooms_Reservation_Id",
+                table: "ReservationRooms",
                 column: "Reservation_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationRoom_Room_Id",
-                table: "ReservationRoom",
+                name: "IX_ReservationRooms_Room_Id",
+                table: "ReservationRooms",
                 column: "Room_Id");
 
             migrationBuilder.CreateIndex(
@@ -350,7 +350,7 @@ namespace BookingHotel.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ReservationRoom");
+                name: "ReservationRooms");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

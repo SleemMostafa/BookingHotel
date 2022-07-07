@@ -54,11 +54,24 @@ namespace BookingHotel.Repository
             return false;
         }
 
+        public bool CancleReservationForAllRooms(int reservationId)
+        {
+            var data = db.Reservations.FirstOrDefault(r => r.Id == reservationId);
+            if(data != null)
+            {
+                db.Reservations.Remove(data);
+                db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public StatusResponse ConfirmReservation(int reservationId)
         {
             var data = db.Reservations.Include(r=>r.Guest).Include(r=>r.ReservationRooms).AsSplitQuery().FirstOrDefault(r => r.Id == reservationId);
             if (data != null)
             {
+                data.Status = true;
                 foreach (var item in data.ReservationRooms)
                 {
                     if (item.DateIn.Date == DateTime.Now.Date)
@@ -89,7 +102,7 @@ namespace BookingHotel.Repository
             Reservation oldReservation = db.Reservations.FirstOrDefault(r => r.Id == id);
             if (oldReservation != null)
             {
-                oldReservation.DateIn = newReservation.DateIn;
+                oldReservation.Date = newReservation.Date;
                 oldReservation.Status = newReservation.Status;
                 oldReservation.Guest_Id = newReservation.Guest_Id;
                 return (db.SaveChanges());
@@ -106,6 +119,16 @@ namespace BookingHotel.Repository
         {
             Reservation reservation = db.Reservations.FirstOrDefault(b => b.Id == id);
             return reservation;
+        }
+
+        public Reservation GetReservationByGuestId(string guestId)
+        {
+            var data = db.Reservations.FirstOrDefault(r => r.Guest_Id == guestId);
+            if(data != null)
+            {
+                return (data);
+            }
+            throw new Exception("No found reservation for this guest");
         }
     }
 }

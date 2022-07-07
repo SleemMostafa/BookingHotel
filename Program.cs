@@ -22,6 +22,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IRepositoryRoom, RoomRepository>();
 builder.Services.AddScoped<IRepositoryRoomType,RoomTypeRepository>();
 builder.Services.AddScoped<IRepositoryReservation,ReservationRepository>();
+builder.Services.AddScoped<IRepositoryReservationRoom,ReservationRoomRepository>();
 builder.Services.AddScoped<IRepositoryBranch,BranchRepository>();
 builder.Services.AddScoped<IRepositoryRoom, RoomRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();

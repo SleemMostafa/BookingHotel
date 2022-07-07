@@ -11,12 +11,16 @@ namespace BookingHotel.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IRepositoryReservation repositoryReservation;
+        private readonly IRepositoryReservationRoom  repositoryReservationRoom;
         private readonly IRepositoryRoom repositoryRoom;
 
-        public ReservationController(IRepositoryReservation _repositoryReservation, IRepositoryRoom _repositoryRoom)
+        public ReservationController(IRepositoryReservation _repositoryReservation,
+                                     IRepositoryRoom _repositoryRoom,
+                                     IRepositoryReservationRoom _repositoryReservationRoom)
         {
             this.repositoryReservation = _repositoryReservation;
             this.repositoryRoom = _repositoryRoom;
+            this.repositoryReservationRoom = _repositoryReservationRoom;
         }
         [HttpGet]
         public IActionResult GetAll()
@@ -80,12 +84,15 @@ namespace BookingHotel.Controllers
                 if (ModelState.IsValid)
                 {
                     newreservation.Guest_Id = model.Guest_Id;
-                    newreservation.DateIn = DateTime.Now;
+                    newreservation.Date = DateTime.Now;
+                    newreservation.TotalPrice = 0;
+                    repositoryReservation.Add(newreservation);
                     foreach (var item in model.ReservationRoomInfo)
                     {
                         room = repositoryRoom.GetOne(item.Room_Id);
-                        newreservation.ReservationRooms.Add(new ReservationRoom
+                        repositoryReservationRoom.Add(new ReservationRoom
                         {
+                            Reservation_Id = newreservation.Id,
                             Room_Id = item.Room_Id,
                             DateIn = item.DateIn,
                             TotalPriceForOneRoom = item.NumberOfDays * room.Price,
@@ -95,8 +102,16 @@ namespace BookingHotel.Controllers
 
                         sumTotalPrice += item.NumberOfDays * room.Price;
                     }
-                    newreservation.TotalPrice = sumTotalPrice;
-                    return Ok(repositoryReservation.Add(newreservation));
+                    if (CheckGeustIfBookingBefore(model.Guest_Id))
+                    {
+                        newreservation.TotalPrice = (95.0 / 100.0) * sumTotalPrice;
+                    }
+                    else
+                    {
+                        newreservation.TotalPrice = sumTotalPrice;
+                    }
+                    repositoryReservation.Edit(newreservation.Id, newreservation);
+                    return Ok(newreservation);
                 }
                 return BadRequest();
             }
@@ -105,6 +120,25 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [NonAction]
+        private bool CheckGeustIfBookingBefore(string guestId)
+        {
+            try
+            {
+                Reservation reservation = repositoryReservation.GetReservationByGuestId(guestId);
+                if (reservation != null)
+                {
+                    return true;
+
+                }
+                return false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
         [HttpPatch]
         public IActionResult Edit(int id, Reservation model)
         {
@@ -143,8 +177,8 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("CancleReservation")]
-        public IActionResult CancleReservation(int reservationId , int roomId )
+        [HttpPost("CancleReservationForOneRoom")]
+        public IActionResult CancleReservationForOneRoom(int reservationId , int roomId )
         {
             try
             {
@@ -154,6 +188,23 @@ namespace BookingHotel.Controllers
                     return Ok(new StatusResponse { Message ="Cancel success",Status=true});
                 }
                 return BadRequest(new StatusResponse { Message="Cancel faild",Status=false});
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("CancleReservationGuestForAllRooms")]
+        public IActionResult CancleReservationGuestForAllRooms(int reservationId)
+        {
+            try
+            {
+                var result = repositoryReservation.CancleReservationForAllRooms(reservationId);
+                if (result)
+                {
+                    return Ok(new StatusResponse { Message = "Reservation deleted", Status = true });
+                }
+                return BadRequest(new StatusResponse { Message = "Deleted faild", Status = false });
             }
             catch (Exception ex)
             {

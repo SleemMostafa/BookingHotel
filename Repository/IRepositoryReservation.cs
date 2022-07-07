@@ -7,5 +7,8 @@ namespace BookingHotel.Repository
     {
         StatusResponse ConfirmReservation(int reservationId);
         bool CancleReservation(int reservationId, int roomId);
+        bool CancleReservationForAllRooms(int reservationId);
+        Reservation GetReservationByGuestId(string guestId);
+
     }
 }

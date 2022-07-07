@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingHotel.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220706153321_initApp")]
-    partial class initApp
+    [Migration("20220707122905_InitApp")]
+    partial class InitApp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,7 +182,7 @@ namespace BookingHotel.Migrations
 
                     b.HasIndex("Room_Id");
 
-                    b.ToTable("ReservationRoom");
+                    b.ToTable("ReservationRooms");
                 });
 
             modelBuilder.Entity("BookingHotel.Models.Room", b =>

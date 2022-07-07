@@ -14,6 +14,7 @@ namespace BookingHotel.Models
         public  DbSet<Reservation> Reservations { get; set; }
         public  DbSet<Room> Rooms { get; set; }
         public  DbSet<RoomType>  RoomTypes { get; set; }
+        public  DbSet<ReservationRoom>  ReservationRooms { get; set; }
         //protected override void OnModelCreating(ModelBuilder builder)
         //{
         //    //builder.Entity<Branch>().Property(b => b.Name).IsRequired();
