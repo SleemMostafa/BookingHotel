@@ -61,6 +61,7 @@ namespace BookingHotel.UserService
 
             return new AuthDto
             {
+                Id = user.Id,
                 Email = user.Email,
                 ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
@@ -84,8 +85,9 @@ namespace BookingHotel.UserService
 
             var jwtSecurityToken = await CreateJwtToken(user);
             var rolesList = await userManager.GetRolesAsync(user);
-
+            authDto.Id = user.Id;
             authDto.IsAuthenticated = true;
+            authDto.IsSuccess = true;
             authDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authDto.Email = user.Email;
             authDto.UserName = user.UserName;
@@ -140,6 +142,10 @@ namespace BookingHotel.UserService
                 signingCredentials: signingCredentials);
 
             return jwtSecurityToken;
+        }
+        public async Task<Guest> GetGuestInfo(string userName)
+        {
+            return (await userManager.FindByNameAsync(userName));
         }
 
     }

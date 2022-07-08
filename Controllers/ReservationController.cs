@@ -211,6 +211,23 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("ReservationDetailsForGuest/{guestId}")]
+        public IActionResult ReservationDetailsForGuest(string guestId)
+        {
+            try
+            {
+                var data = repositoryReservation.GetReservationsForGuest(guestId);
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                return BadRequest(ModelState);
+              }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

@@ -9,6 +9,7 @@ namespace BookingHotel.Repository
         bool CancleReservation(int reservationId, int roomId);
         bool CancleReservationForAllRooms(int reservationId);
         Reservation GetReservationByGuestId(string guestId);
+        List<Reservation> GetReservationsForGuest(string guestId);
 
     }
 }

@@ -50,13 +50,30 @@ namespace BookingHotel.Repository
 
         public ICollection<Room> GetAll()
         {
-            List<Room> rooms = db.Rooms.ToList();
+            List<Room> rooms = db.Rooms.Include(r=>r.Branch).Include(r=>r.Room_Type).AsSplitQuery().ToList();
             return (rooms);
         }
+
+        public ICollection<Room> GetAvialable()
+        {
+            List<Room> rooms = db.Rooms.Where(r=>r.Status == StatusRoom.Available).Include(r => r.Branch).Include(r => r.Room_Type).AsSplitQuery().ToList();
+            return rooms;
+        }
+
         public Room GetOne(int id)
         {
             Room room = db.Rooms.Include(r=>r.Room_Type).FirstOrDefault(b => b.Id == id);
             return room;
+        }
+
+        public ICollection<Room> GetRoomsByBranchId(int branchId)
+        {
+            var data = db.Rooms.Where(r => r.Branch_Id == branchId).Include(r=>r.Branch).Include(r=>r.Room_Type).AsSplitQuery().ToList();
+            if(data != null)
+            {
+                return data;
+            }
+            throw new Exception("Branch Empty");
         }
     }
 }

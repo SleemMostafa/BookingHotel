@@ -33,6 +33,24 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetAllAvialable")]
+        public IActionResult GetAllAvialable()
+        {
+            try
+            {
+                var data = repositoryRoom.GetAvialable();
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                return NotFound(new StatusResponse { Message = "No data found", Status = false });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("{id:int}", Name = "getOneRouteRoom")]
         public IActionResult GetOne(int id)
         {
@@ -100,6 +118,23 @@ namespace BookingHotel.Controllers
                 return BadRequest(new StatusResponse { Message = "Edit faild", Status = false });
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetRoomsByBranchId/{branchId:int}")]
+        public IActionResult GetRoomsByBranchId(int branchId)
+        {
+            try
+            {
+                var rooms = repositoryRoom.GetRoomsByBranchId(branchId);
+                if(rooms != null)
+                {
+                    return Ok(rooms);
+                }
+                return BadRequest(ModelState);
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

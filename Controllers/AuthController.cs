@@ -1,7 +1,9 @@
 ﻿using BookingHotel.DTO;
 using BookingHotel.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookingHotel.Controllers
 {
@@ -26,7 +28,15 @@ namespace BookingHotel.Controllers
             {
                 return BadRequest(result.Message);
             }
-            return Ok(new { token = result.Token, expiresOn = result.ExpiresOn, UserRole = result.Roles });
+            return Ok(result);
+        }
+        [Authorize]
+        [HttpGet("CurrentUser")]
+        public async Task<IActionResult> CurrentUser()
+        {
+            var userName = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guestInfo = await authService.GetGuestInfo(userName);
+            return Ok(guestInfo.Id);
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(TokenRequestDto model)
@@ -41,7 +51,7 @@ namespace BookingHotel.Controllers
             {
                 return BadRequest(result.Message);
             }
-            return Ok(new { token = result.Token, expiresOn = result.ExpiresOn, UserRole = result.Roles, Email = result.Email });
+            return Ok(result);
         }
         //[Authorize(Roles = "Admin")]
         [HttpPost("addRole")]

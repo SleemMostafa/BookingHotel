@@ -130,5 +130,15 @@ namespace BookingHotel.Repository
             }
             throw new Exception("No found reservation for this guest");
         }
+
+        public List<Reservation> GetReservationsForGuest(string guestId)
+        {
+            var data = db.Reservations.Where(r => r.Guest_Id == guestId).Include(r=>r.ReservationRooms).ThenInclude(r=>r.Room).AsSplitQuery().ToList();
+            if(data !=null)
+            {
+                return (data);
+            }
+            throw new Exception("No found reservation for this guest");
+        }
     }
 }

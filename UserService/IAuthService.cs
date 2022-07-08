@@ -1,4 +1,5 @@
 ﻿using BookingHotel.DTO;
+using BookingHotel.Models;
 
 namespace BookingHotel.UserService
 {
@@ -7,6 +8,6 @@ namespace BookingHotel.UserService
         Task<AuthDto> Register(RegisterDto model);
         Task<AuthDto> Login(TokenRequestDto model);
         Task<string> AddRole(AddRoleDto model);
- 
+        Task<Guest> GetGuestInfo(string userName);
     }
 }
