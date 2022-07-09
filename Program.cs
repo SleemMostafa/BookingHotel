@@ -26,6 +26,8 @@ builder.Services.AddScoped<IRepositoryReservationRoom,ReservationRoomRepository>
 builder.Services.AddScoped<IRepositoryBranch,BranchRepository>();
 builder.Services.AddScoped<IRepositoryRoom, RoomRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRepositoryTempGuestRoom, TempGuestRoomRepository>();
+
 //End Inject
 builder.Services.AddControllers().AddNewtonsoftJson(options=>
 {

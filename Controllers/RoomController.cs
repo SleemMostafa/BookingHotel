@@ -1,6 +1,7 @@
 ﻿using BookingHotel.DTO;
 using BookingHotel.Models;
 using BookingHotel.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,8 @@ namespace BookingHotel.Controllers
         {
             this.repositoryRoom = _repositoryRoom;
         }
-        [HttpGet]
+        [Authorize]
+        [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             try

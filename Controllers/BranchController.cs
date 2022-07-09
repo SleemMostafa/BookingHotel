@@ -13,7 +13,7 @@ namespace BookingHotel.Controllers
     public class BranchController : ControllerBase
     {
         private readonly IRepositoryBranch repositoryBranch;
-
+         
         public BranchController(IRepositoryBranch repositoryBranch)
         {
             this.repositoryBranch = repositoryBranch;
