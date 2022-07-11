@@ -89,11 +89,11 @@ namespace BookingHotel.Controllers
                     repositoryReservation.Add(newreservation);
                     foreach (var item in model.ReservationRoomInfo)
                     {
-                        room = repositoryRoom.GetOne(item.Room_Id);
+                        room = repositoryRoom.GetOne(item.RoomId);
                         repositoryReservationRoom.Add(new ReservationRoom
                         {
                             Reservation_Id = newreservation.Id,
-                            Room_Id = item.Room_Id,
+                            Room_Id = item.RoomId,
                             DateIn = item.DateIn,
                             TotalPriceForOneRoom = item.NumberOfDays * room.Price,
                             NumberOfDays = item.NumberOfDays,
@@ -102,7 +102,7 @@ namespace BookingHotel.Controllers
 
                         sumTotalPrice += item.NumberOfDays * room.Price;
                     }
-                    if (CheckGeustIfBookingBefore(model.Guest_Id))
+                    if (CheckGeustIfBookingBefore(model.Guest_Id) > 1)
                     {
                         newreservation.TotalPrice = (95.0 / 100.0) * sumTotalPrice;
                     }
@@ -121,21 +121,21 @@ namespace BookingHotel.Controllers
             }
         }
         [NonAction]
-        private bool CheckGeustIfBookingBefore(string guestId)
+        private int CheckGeustIfBookingBefore(string guestId)
         {
             try
             {
-                Reservation reservation = repositoryReservation.GetReservationByGuestId(guestId);
+                List<Reservation> reservation = repositoryReservation.GetReservationsForGuest(guestId);
                 if (reservation != null)
                 {
-                    return true;
+                    return reservation.Count;
 
                 }
-                return false;
+                return 0;
             }
             catch(Exception ex)
             {
-                return false;
+                return 0;
             }
         }
 

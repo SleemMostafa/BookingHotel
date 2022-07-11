@@ -4,7 +4,7 @@ namespace BookingHotel.DTO
 {
     public class ReservationRoomDto
     {
-        public int Room_Id { get; set; }
+        public int RoomId { get; set; }
         [DataType(DataType.Date), Required]
         public DateTime DateIn { get; set; }
         [DataType(DataType.Date), Required]
