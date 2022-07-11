@@ -5,6 +5,6 @@ namespace BookingHotel.Repository
     public interface IRepositoryTempGuestRoom:IRepository<TempGuestRooms,int>
     {
         bool CheckIfTempRoomExit(int roomId, string guestId);
-
+        List<TempGuestRooms> GetAllForGuest(string guestId);
     }
 }

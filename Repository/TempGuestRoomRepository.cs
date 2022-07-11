@@ -43,6 +43,11 @@ namespace BookingHotel.Repository
             throw new NotImplementedException();
         }
 
+        public List<TempGuestRooms> GetAllForGuest(string guestId)
+        {
+            var data = db.TempGuestRooms.Where(t => t.GuestId == guestId).ToList();
+            return (data);
+        }
         public TempGuestRooms GetOne(int id)
         {
             throw new NotImplementedException();

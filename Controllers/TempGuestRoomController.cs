@@ -15,6 +15,23 @@ namespace BookingHotel.Controllers
         {
             this.repositoryTempGuestRoom = repositoryTempGuestRoom;
         }
+        [HttpGet("GetAllTempByGuestId")]
+        public IActionResult GetAllTempByGuestId(string guestId)
+        {
+            try
+            {
+                var data = repositoryTempGuestRoom.GetAllForGuest(guestId);
+                if(data != null)
+                {
+                    return Ok(data);
+                }
+                return BadRequest(ModelState);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost]
         public IActionResult Insert(TempGuestRooms model)
         {
