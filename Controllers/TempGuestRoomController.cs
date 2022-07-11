@@ -32,5 +32,22 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult CheckTempRoomExist(int roomId,string guestId)
+        {
+            try
+            {
+                var data = repositoryTempGuestRoom.CheckIfTempRoomExit(roomId, guestId);
+                if(data)
+                {
+                    return Ok(true);
+                }
+                return Ok(false);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

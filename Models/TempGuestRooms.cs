@@ -14,6 +14,7 @@ namespace BookingHotel.Models
         public DateTime DateOut { get; set; }
         [ForeignKey("Guest")]
         public string GuestId { get; set; }
+        public int RoomId { get; set; }
         public virtual Guest? Guest { get; set; }
     }
 }

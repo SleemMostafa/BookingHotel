@@ -1,4 +1,5 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
 
 namespace BookingHotel.Repository
 {
@@ -45,6 +46,17 @@ namespace BookingHotel.Repository
         public TempGuestRooms GetOne(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public bool CheckIfTempRoomExit(int roomId, string guestId)
+        {
+            var data = db.TempGuestRooms.FirstOrDefault(t => t.RoomId == roomId && t.GuestId == guestId);
+            if(data != null)
+            {
+                return true;
+            }
+            return false;
+
         }
     }
 }
