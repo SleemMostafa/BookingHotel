@@ -6,5 +6,7 @@ namespace BookingHotel.Repository
     {
         bool CheckIfTempRoomExit(int roomId, string guestId);
         List<TempGuestRooms> GetAllForGuest(string guestId);
+        int DeleteByGuestID(string id);
+
     }
 }

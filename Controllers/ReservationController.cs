@@ -13,14 +13,17 @@ namespace BookingHotel.Controllers
         private readonly IRepositoryReservation repositoryReservation;
         private readonly IRepositoryReservationRoom  repositoryReservationRoom;
         private readonly IRepositoryRoom repositoryRoom;
-
+        private readonly IRepositoryTempGuestRoom repositoryTempGuestRoom;
         public ReservationController(IRepositoryReservation _repositoryReservation,
                                      IRepositoryRoom _repositoryRoom,
-                                     IRepositoryReservationRoom _repositoryReservationRoom)
+                                     IRepositoryReservationRoom _repositoryReservationRoom,
+                                      IRepositoryTempGuestRoom _repositoryTempGuestRoom)
         {
             this.repositoryReservation = _repositoryReservation;
             this.repositoryRoom = _repositoryRoom;
             this.repositoryReservationRoom = _repositoryReservationRoom;
+            repositoryTempGuestRoom = _repositoryTempGuestRoom;
+
         }
         [HttpGet]
         public IActionResult GetAll()
@@ -111,6 +114,8 @@ namespace BookingHotel.Controllers
                         newreservation.TotalPrice = sumTotalPrice;
                     }
                     repositoryReservation.Edit(newreservation.Id, newreservation);
+                    repositoryTempGuestRoom.DeleteByGuestID(model.Guest_Id);
+
                     return Ok(newreservation);
                 }
                 return BadRequest();
