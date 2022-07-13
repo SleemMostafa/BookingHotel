@@ -121,9 +121,9 @@ namespace BookingHotel.Repository
             return reservation;
         }
 
-        public Reservation GetReservationByGuestId(string guestId)
+        public List<Reservation> GetAllReservationNotConfirmed()
         {
-            var data = db.Reservations.FirstOrDefault(r => r.Guest_Id == guestId);
+            var data = db.Reservations.Where(r=>r.Status == false).ToList();
             if(data != null)
             {
                 return (data);

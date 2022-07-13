@@ -25,6 +25,24 @@ namespace BookingHotel.Controllers
             repositoryTempGuestRoom = _repositoryTempGuestRoom;
 
         }
+        [HttpGet("GetAllReservationNotConfirmed")]
+        public IActionResult GetAllReservationNotConfirmed()
+        {
+            try
+            {
+                var data = repositoryReservation.GetAllReservationNotConfirmed();
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                return NotFound(new StatusResponse { Message = "No data found", Status = false });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -165,12 +183,12 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("ConfirmReservation")]
-        public IActionResult  ConfirmReservation(int reservationId)
+        [HttpPost("ConfirmReservation/{id}")]
+        public IActionResult  ConfirmReservation(int id)
         {
             try
             {
-                var result = repositoryReservation.ConfirmReservation(reservationId);
+                var result = repositoryReservation.ConfirmReservation(id);
                 if(result.Status == true)
                 {
                     return Ok(result);
