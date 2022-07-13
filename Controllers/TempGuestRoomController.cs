@@ -50,14 +50,38 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost]
-        public IActionResult Insert(TempGuestRooms model)
+        [HttpDelete("DeleteTempRoomByID")]
+        public IActionResult DeleteTempRoomByID(int id)
         {
+            try
+            {
+                var data = repositoryTempGuestRoom.Delete(id);
+                if (data > 0)
+                {
+                    return Ok(new StatusResponse { Message="Delete succsess",Status =  true});
+                }
+                return BadRequest(new StatusResponse { Message = "Delete faild", Status = false });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Insert(TempGuestRoomDto model)
+        {
+            TempGuestRooms newTempGuestRooms = new TempGuestRooms();
+            newTempGuestRooms.DateIn = model.DateIn;
+            newTempGuestRooms.DateOut = model.DateIn;
+            newTempGuestRooms.NumberOfDays = model.NumberOfDays;
+            newTempGuestRooms.RoomId = model.RoomId;
+            newTempGuestRooms.GuestId = model.GuestId;
             try
             {
                 if(ModelState.IsValid)
                 {
-                    repositoryTempGuestRoom.Add(model);
+                    repositoryTempGuestRoom.Add(newTempGuestRooms);
                     return Ok(model);
                 }
                 return BadRequest(ModelState);

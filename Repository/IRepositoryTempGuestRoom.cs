@@ -1,7 +1,7 @@
 ﻿using BookingHotel.DTO;
 using BookingHotel.Models;
 
-namespace BookingHotel.Repository
+namespace BookingHotel.Repository   
 {
     public interface IRepositoryTempGuestRoom : IRepository<TempGuestRooms, int>
     {
