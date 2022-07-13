@@ -1,4 +1,5 @@
-﻿using BookingHotel.Models;
+﻿using BookingHotel.DTO;
+using BookingHotel.Models;
 using BookingHotel.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,23 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetTempRoomByID")]
+        public IActionResult GetTempRoomByID(int id)
+        {
+            try
+            {
+                var data = repositoryTempGuestRoom.GetOne(id);
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                return BadRequest(ModelState);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost]
         public IActionResult Insert(TempGuestRooms model)
         {
@@ -49,6 +67,23 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut]
+        public IActionResult Edit(int id, TempRoomDTO tempGuestRooms)
+        {
+            try
+            {
+                var data = repositoryTempGuestRoom.EditTempRoom(id, tempGuestRooms);
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                return BadRequest(ModelState);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet]
         public IActionResult CheckTempRoomExist(int roomId,string guestId)
         {
@@ -62,6 +97,23 @@ namespace BookingHotel.Controllers
                 return Ok(false);
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteByGuestID(string id)
+        {
+            try
+            {
+                var data = repositoryTempGuestRoom.DeleteByGuestID(id);
+                if (data > 1)
+                {
+                    return Ok(true);
+                }
+                return Ok(false);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

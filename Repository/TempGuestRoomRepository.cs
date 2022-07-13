@@ -13,7 +13,7 @@ namespace BookingHotel.Repository
         }
         public TempGuestRooms Add(TempGuestRooms entity)
         {
-            if(entity != null)
+            if (entity != null)
             {
                 db.TempGuestRooms.Add(entity);
                 db.SaveChanges();
@@ -25,7 +25,7 @@ namespace BookingHotel.Repository
         public int Delete(int id)
         {
             var data = db.TempGuestRooms.FirstOrDefault(t => t.Id == id);
-            if(data != null)
+            if (data != null)
             {
                 db.TempGuestRooms.Remove(data);
                 return (db.SaveChanges());
@@ -47,7 +47,7 @@ namespace BookingHotel.Repository
             return 0;
         }
 
-        public int Edit(int id, TempGuestRooms entity)
+        public int EditTempRoom(int id, TempRoomDTO entity)
         {
             TempGuestRooms tempGuestRooms = db.TempGuestRooms.FirstOrDefault(t => t.Id == id);
             if (tempGuestRooms != null)
@@ -80,12 +80,17 @@ namespace BookingHotel.Repository
         public bool CheckIfTempRoomExit(int roomId, string guestId)
         {
             var data = db.TempGuestRooms.FirstOrDefault(t => t.RoomId == roomId && t.GuestId == guestId);
-            if(data != null)
+            if (data != null)
             {
                 return true;
             }
             return false;
 
+        }
+
+        public int Edit(int id, TempGuestRooms entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
