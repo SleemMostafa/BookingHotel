@@ -183,7 +183,7 @@ namespace BookingHotel.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("ConfirmReservation/{id}")]
+        [HttpGet("ConfirmReservation/{id}")]
         public IActionResult  ConfirmReservation(int id)
         {
             try
